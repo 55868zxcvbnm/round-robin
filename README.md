@@ -12,6 +12,7 @@ Este proyecto es un simulador que implementa el algoritmo de planificación de p
 ## Estructura del Proyecto
 
 round_robin_simulator/
+
     main.py                    - Archivo principal que ejecuta el simulador
     ui.py                      - Archivo para la interfaz gráfica utilizando Tkinter
     algorithm.py               - Archivo que contiene la implementación del algoritmo Round Robin
