@@ -15,22 +15,37 @@ El proyecto está organizado en varias carpetas y archivos para facilitar el des
 
 round_robin_simulator/
 │
-├── main.py                   # Archivo principal que ejecuta el simulador
-├── ui.py                     # Archivo para la interfaz gráfica utilizando Tkinter
-├── algorithm.py              # Archivo que contiene la implementación del algoritmo Round Robin
-├── utils.py                  # Archivo con funciones auxiliares (e.g., para validaciones)
+├── main.py
+├── ui.py
+├── algorithm.py
+├── utils.py
 │
-├── assets/                   # Carpeta para recursos adicionales
-│   ├── icons/                # Iconos para la interfaz
-│   └── images/               # Imágenes utilizadas en el simulador
+├── assets/
+│   ├── icons/
+│   └── images/
 │
-├── tests/                    # Carpeta para pruebas
-│   ├── test_algorithm.py     # Pruebas para el módulo del algoritmo
-│   └── test_utils.py         # Pruebas para funciones auxiliares
+├── tests/
+│   ├── test_algorithm.py
+│   └── test_utils.py
 │
-└── README.md                 # Archivo de documentación del proyecto
+└── README.md
 
-### Archivos Principales
+## Descripción de los archivos y carpetas
+
+- `main.py`: Archivo principal que ejecuta el simulador.
+- `ui.py`: Archivo para la interfaz gráfica utilizando Tkinter.
+- `algorithm.py`: Archivo que contiene la implementación del algoritmo Round Robin.
+- `utils.py`: Archivo con funciones auxiliares (e.g., para validaciones).
+- `assets/`: Carpeta para recursos adicionales.
+  - `icons/`: Iconos para la interfaz.
+  - `images/`: Imágenes utilizadas en el simulador.
+- `tests/`: Carpeta para pruebas.
+  - `test_algorithm.py`: Pruebas para el módulo del algoritmo.
+  - `test_utils.py`: Pruebas para funciones auxiliares.
+- `README.md`: Archivo de documentación del proyecto.
+
+
+## Archivos Principales
 
 #### `main.py`
 
