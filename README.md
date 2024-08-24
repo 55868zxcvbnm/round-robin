@@ -11,39 +11,21 @@ Este proyecto es un simulador que implementa el algoritmo de planificación de p
 
 ## Estructura del Proyecto
 
-El proyecto está organizado en varias carpetas y archivos para facilitar el desarrollo, mantenimiento y uso del simulador.
-
 round_robin_simulator/
-│
-├── main.py
-├── ui.py
-├── algorithm.py
-├── utils.py
-│
-├── assets/
-│   ├── icons/
-│   └── images/
-│
-├── tests/
-│   ├── test_algorithm.py
-│   └── test_utils.py
-│
-└── README.md
+    main.py                    - Archivo principal que ejecuta el simulador
+    ui.py                      - Archivo para la interfaz gráfica utilizando Tkinter
+    algorithm.py               - Archivo que contiene la implementación del algoritmo Round Robin
+    utils.py                   - Archivo con funciones auxiliares (e.g., para validaciones)
 
-## Descripción de los archivos y carpetas
+    assets/                    - Carpeta para recursos adicionales
+        icons/                 - Iconos para la interfaz
+        images/                - Imágenes utilizadas en el simulador
 
-- `main.py`: Archivo principal que ejecuta el simulador.
-- `ui.py`: Archivo para la interfaz gráfica utilizando Tkinter.
-- `algorithm.py`: Archivo que contiene la implementación del algoritmo Round Robin.
-- `utils.py`: Archivo con funciones auxiliares (e.g., para validaciones).
-- `assets/`: Carpeta para recursos adicionales.
-  - `icons/`: Iconos para la interfaz.
-  - `images/`: Imágenes utilizadas en el simulador.
-- `tests/`: Carpeta para pruebas.
-  - `test_algorithm.py`: Pruebas para el módulo del algoritmo.
-  - `test_utils.py`: Pruebas para funciones auxiliares.
-- `README.md`: Archivo de documentación del proyecto.
+    tests/                     - Carpeta para pruebas
+        test_algorithm.py      - Pruebas para el módulo del algoritmo
+        test_utils.py          - Pruebas para funciones auxiliares
 
+    README.md                  - Archivo de documentación del proyecto
 
 ## Archivos Principales
 
