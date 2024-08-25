@@ -40,7 +40,7 @@ round_robin_simulator/
 #### `ui.py`
 
 - **Descripción:**
-  Este archivo contiene todo el código relacionado con la interfaz gráfica de usuario (GUI) del simulador. Utiliza el módulo Tkinter de Python para construir la interfaz visual que los usuarios interactúan.
+  Este archivo contiene todo el código relacionado con la interfaz gráfica de usuario (GUI) del simulador. Utiliza el módulo Tkinter de Python para construir la interfaz visual con que los usuarios interactúan.
 - **Funcionalidad:**
   Permite a los usuarios ingresar parámetros como el número de procesos y el tiempo de quantum, y visualizar los resultados de la simulación. Aquí se manejan los eventos de la interfaz y se comunica con el módulo que implementa el algoritmo para obtener los resultados de la simulación.
 
