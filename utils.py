@@ -1,21 +1,21 @@
 # Aquí puedes colocar funciones adicionales, como validaciones.
 
-# Example utility function to validate input lengths (used in ui.py)
-def validate_process_inputs(number_processes, arrival_times, burst_times):
-    if len(arrival_times) != number_processes or len(burst_times) != number_processes:
+# Ejemplo de función de utilidad para validar la longitud de las entradas (usada en ui.py)
+def validar_entradas_procesos(numero_procesos, tiempos_llegada, tiempos_rafaga):
+    if len(tiempos_llegada) != numero_procesos or len(tiempos_rafaga) != numero_procesos:
         raise ValueError(
-            "The number of processes does not match the number of arrival or burst times.")
+            "El número de procesos no coincide con la cantidad de tiempos de llegada o tiempos de ráfaga.")
 
 
-def validate_positive_integer(value):
+def validar_entero_positivo(valor):
     """Valida que el valor ingresado sea un número entero positivo."""
-    if isinstance(value, int) and value > 0:
+    if isinstance(valor, int) and valor > 0:
         return True
     return False
 
 
-def calculate_average(values):
+def calcular_promedio(valores):
     """Calcula el promedio de una lista de números."""
-    if not values:
+    if not valores:
         return 0
-    return sum(values) / len(values)
+    return sum(valores) / len(valores)

@@ -2,83 +2,84 @@
 # Aquí se implementa el algoritmo Round Robin.
 # ---------------------------------------------
 
-class Process:
-    def __init__(self, id, burst, arrival):
+class Proceso:
+    def __init__(self, id, rafaga, llegada):
         self.id = id
-        self.burst = burst
-        self.arrival = arrival
-        self.burst_tmp = burst
-        self.wait = 0
-        self.return_ = 0
-        self.ending = 0
+        self.rafaga = rafaga
+        self.llegada = llegada
+        self.rafaga_tmp = rafaga
+        self.espera = 0
+        self.retorno = 0
+        self.finalizacion = 0
 
 
-class RoundRobinScheduler:
-    def __init__(self, num_processes, quantum, arrival_times, burst_times):
-        self.num_processes = num_processes
+class PlanificadorRoundRobin:
+    def __init__(self, num_procesos, quantum, tiempos_llegada, tiempos_rafaga):
+        self.num_procesos = num_procesos
         self.quantum = quantum
-        self.processes = [Process(i+1, burst_times[i], arrival_times[i])
-                          for i in range(num_processes)]
+        self.procesos = [Proceso(i+1, tiempos_rafaga[i], tiempos_llegada[i])
+                         for i in range(num_procesos)]
 
-    def order_process_for_time_arrival(self, processes):
-        processes.sort(key=lambda x: x.arrival)
-        return processes
+    def ordenar_procesos_por_tiempo_llegada(self, procesos):
+        procesos.sort(key=lambda x: x.llegada)
+        return procesos
 
-    def run_simulation(self):
-        process_list = self.order_process_for_time_arrival(self.processes)
-        mirror_process = len(process_list)
-        time = 0
-        tail_processes = []
-        currently_execution_proccess = None
-        next_process = 0
-        results = []
+    def ejecutar_simulacion(self):
+        lista_procesos = self.ordenar_procesos_por_tiempo_llegada(
+            self.procesos)
+        procesos_restantes = len(lista_procesos)
+        tiempo = 0
+        cola_procesos = []
+        proceso_en_ejecucion = None
+        siguiente_proceso = 0
+        resultados = []
 
-        while mirror_process > 0:
-            results.append(
-                f"*************************** Time: {time} ************************")
-            if len(process_list) > next_process and time >= process_list[next_process].arrival:
-                results.append(
-                    f"Process {process_list[next_process].id} entered the ready queue.")
-                tail_processes.append(process_list[next_process])
-                next_process += 1
+        while procesos_restantes > 0:
+            resultados.append(
+                f"*************************** Tiempo: {tiempo} ************************")
+            if len(lista_procesos) > siguiente_proceso and tiempo >= lista_procesos[siguiente_proceso].llegada:
+                resultados.append(
+                    f"El proceso {lista_procesos[siguiente_proceso].id} entró en la cola de listos.")
+                cola_procesos.append(lista_procesos[siguiente_proceso])
+                siguiente_proceso += 1
             else:
-                if next_process > 0 or len(tail_processes) > 0:
-                    if currently_execution_proccess is None:
-                        currently_execution_proccess = tail_processes.pop(0)
-                        results.append(
-                            f"Process {currently_execution_proccess.id} is now being executed.")
+                if siguiente_proceso > 0 or len(cola_procesos) > 0:
+                    if proceso_en_ejecucion == None:
+                        proceso_en_ejecucion = cola_procesos.pop(0)
+                        resultados.append(
+                            f"El proceso {proceso_en_ejecucion.id} está siendo ejecutado.")
 
-                    if currently_execution_proccess.burst_tmp >= self.quantum:
-                        currently_execution_proccess.burst_tmp -= self.quantum
-                        time += self.quantum
+                    if proceso_en_ejecucion.rafaga_tmp >= self.quantum:
+                        proceso_en_ejecucion.rafaga_tmp -= self.quantum
+                        tiempo += self.quantum
                     else:
-                        time += currently_execution_proccess.burst_tmp
-                        currently_execution_proccess.burst_tmp = 0
+                        tiempo += proceso_en_ejecucion.rafaga_tmp
+                        proceso_en_ejecucion.rafaga_tmp = 0
 
-                    if currently_execution_proccess.burst_tmp < 1:
-                        results.append(
-                            f"Process {currently_execution_proccess.id} completed at time {time}.")
-                        currently_execution_proccess.ending = time
-                        currently_execution_proccess.return_ = time - \
-                            currently_execution_proccess.arrival
-                        currently_execution_proccess.wait = currently_execution_proccess.return_ - \
-                            currently_execution_proccess.burst
-                        mirror_process -= 1
-                        currently_execution_proccess = None
+                    if proceso_en_ejecucion.rafaga_tmp < 1:
+                        resultados.append(
+                            f"El proceso {proceso_en_ejecucion.id} completó su ejecución en el tiempo {tiempo}.")
+                        proceso_en_ejecucion.finalizacion = tiempo
+                        proceso_en_ejecucion.retorno = tiempo - \
+                            proceso_en_ejecucion.llegada
+                        proceso_en_ejecucion.espera = proceso_en_ejecucion.retorno - \
+                            proceso_en_ejecucion.rafaga
+                        procesos_restantes -= 1
+                        proceso_en_ejecucion = None
                     else:
-                        tail_processes.append(currently_execution_proccess)
-                        currently_execution_proccess = None
+                        cola_procesos.append(proceso_en_ejecucion)
+                        proceso_en_ejecucion = None
                 else:
-                    time += 1
+                    tiempo += 1
 
-        # Generate final results
-        total_return = sum(p.return_ for p in process_list)
-        total_wait = sum(p.wait for p in process_list)
-        average_return = total_return / len(process_list)
-        average_wait = total_wait / len(process_list)
+        # Generar resultados finales
+        total_retorno = sum(p.retorno for p in lista_procesos)
+        total_espera = sum(p.espera for p in lista_procesos)
+        promedio_retorno = total_retorno / len(lista_procesos)
+        promedio_espera = total_espera / len(lista_procesos)
 
-        result_str = '\n'.join(results)
-        result_str += f"\n\nAverage return time: {average_return}"
-        result_str += f"\nAverage wait time: {average_wait}"
+        resultados_str = '\n'.join(resultados)
+        resultados_str += f"\n\nTiempo promedio de retorno: {promedio_retorno}"
+        resultados_str += f"\nTiempo promedio de espera: {promedio_espera}"
 
-        return result_str
+        return resultados_str

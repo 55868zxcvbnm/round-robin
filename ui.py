@@ -3,98 +3,100 @@
 # ------------------------------------------------------------
 
 import tkinter as tk
-from algorithm import RoundRobinScheduler
+from algorithm import PlanificadorRoundRobin
 
 
-class RoundRobinSimulatorUI:
+class SimuladorRoundRobinUI:
     def __init__(self, master):
         self.master = master
-        master.title("Round Robin Process Scheduler Simulator")
+        master.title("Simulador de Planificador de Procesos Round Robin")
 
-        # Labels and Entries for process input
-        self.processes_label = tk.Label(master, text="Number of Processes")
-        self.processes_label.grid(row=0, column=0)
+        # Etiquetas y Entradas para la entrada de procesos
+        self.etiqueta_procesos = tk.Label(master, text="Número de Procesos")
+        self.etiqueta_procesos.grid(row=0, column=0)
 
-        self.processes_entry = tk.Entry(master)
-        self.processes_entry.grid(row=0, column=1)
+        self.entrada_procesos = tk.Entry(master)
+        self.entrada_procesos.grid(row=0, column=1)
 
-        self.quantum_label = tk.Label(master, text="Quantum")
-        self.quantum_label.grid(row=1, column=0)
+        self.etiqueta_quantum = tk.Label(master, text="Quantum")
+        self.etiqueta_quantum.grid(row=1, column=0)
 
-        self.quantum_entry = tk.Entry(master)
-        self.quantum_entry.grid(row=1, column=1)
+        self.entrada_quantum = tk.Entry(master)
+        self.entrada_quantum.grid(row=1, column=1)
 
-        # New labels and entries for arrival time and burst time
-        self.arrival_label = tk.Label(
-            master, text="Arrival Times (comma-separated)")
-        self.arrival_label.grid(row=2, column=0)
+        # Nuevas etiquetas y entradas para tiempos de llegada y ráfaga
+        self.etiqueta_llegada = tk.Label(
+            master, text="Tiempos de Llegada (separados por comas)")
+        self.etiqueta_llegada.grid(row=2, column=0)
 
-        self.arrival_entry = tk.Entry(master)
-        self.arrival_entry.grid(row=2, column=1)
+        self.entrada_llegada = tk.Entry(master)
+        self.entrada_llegada.grid(row=2, column=1)
 
-        self.burst_label = tk.Label(
-            master, text="Burst Times (comma-separated)")
-        self.burst_label.grid(row=3, column=0)
+        self.etiqueta_rafaga = tk.Label(
+            master, text="Tiempos de Ráfaga (separados por comas)")
+        self.etiqueta_rafaga.grid(row=3, column=0)
 
-        self.burst_entry = tk.Entry(master)
-        self.burst_entry.grid(row=3, column=1)
+        self.entrada_rafaga = tk.Entry(master)
+        self.entrada_rafaga.grid(row=3, column=1)
 
-        # Start button
-        self.start_button = tk.Button(
-            master, text="Start Simulation", command=self.start_simulation)
-        self.start_button.grid(row=4, column=0, columnspan=2)
+        # Botón para iniciar la simulación
+        self.boton_iniciar = tk.Button(
+            master, text="Iniciar Simulación", command=self.iniciar_simulacion)
+        self.boton_iniciar.grid(row=4, column=0, columnspan=2)
 
-        # Button to clear the screen
-        self.clear_button = tk.Button(
-            master, text="Clear Screen", command=self.clear_screen)
-        self.clear_button.grid(row=4, column=1, columnspan=2)
+        # Botón para limpiar la pantalla
+        self.boton_limpiar = tk.Button(
+            master, text="Limpiar Pantalla", command=self.limpiar_pantalla)
+        self.boton_limpiar.grid(row=4, column=1, columnspan=2)
 
-        # Textbox to display results
-        self.results_text = tk.Text(
+        # Caja de texto para mostrar los resultados
+        self.texto_resultados = tk.Text(
             master, state='disabled', width=50, height=20)
-        self.results_text.grid(row=5, column=0, columnspan=2)
+        self.texto_resultados.grid(row=5, column=0, columnspan=2)
 
-    def start_simulation(self):
+    def iniciar_simulacion(self):
         try:
-            number_processes = int(self.processes_entry.get())
-            quantum = int(self.quantum_entry.get())
-            arrival_times = list(map(int, self.arrival_entry.get().split(',')))
-            burst_times = list(map(int, self.burst_entry.get().split(',')))
+            numero_procesos = int(self.entrada_procesos.get())
+            quantum = int(self.entrada_quantum.get())
+            tiempos_llegada = list(
+                map(int, self.entrada_llegada.get().split(',')))
+            tiempos_rafaga = list(
+                map(int, self.entrada_rafaga.get().split(',')))
 
-            # Validation of input lengths
-            if len(arrival_times) != number_processes or len(burst_times) != number_processes:
+            # Validación de la longitud de las entradas
+            if len(tiempos_llegada) != numero_procesos or len(tiempos_rafaga) != numero_procesos:
                 raise ValueError(
-                    "Number of arrival times and burst times must match the number of processes.")
+                    "El número de tiempos de llegada y tiempos de ráfaga debe coincidir con el número de procesos.")
 
-            scheduler = RoundRobinScheduler(
-                number_processes, quantum, arrival_times, burst_times)
-            results = scheduler.run_simulation()
+            planificador = PlanificadorRoundRobin(
+                numero_procesos, quantum, tiempos_llegada, tiempos_rafaga)
+            resultados = planificador.ejecutar_simulacion()
 
-            self.display_results(results)
+            self.mostrar_resultados(resultados)
 
         except ValueError as ve:
-            self.display_results(f"Input Error: {ve}")
+            self.mostrar_resultados(f"Error en la entrada: {ve}")
         except Exception as e:
-            self.display_results(f"Error: {e}")
+            self.mostrar_resultados(f"Error: {e}")
 
-    def display_results(self, results):
-        self.results_text.config(state='normal')
-        self.results_text.delete('1.0', tk.END)
-        self.results_text.insert(tk.END, results)
-        self.results_text.config(state='disabled')
+    def mostrar_resultados(self, resultados):
+        self.texto_resultados.config(state='normal')
+        self.texto_resultados.delete('1.0', tk.END)
+        self.texto_resultados.insert(tk.END, resultados)
+        self.texto_resultados.config(state='disabled')
 
-    def clear_screen(self):
-        """Clear all the input fields and the result display."""
-        self.processes_entry.delete(0, tk.END)
-        self.quantum_entry.delete(0, tk.END)
-        self.arrival_entry.delete(0, tk.END)
-        self.burst_entry.delete(0, tk.END)
-        self.results_text.config(state='normal')
-        self.results_text.delete('1.0', tk.END)
-        self.results_text.config(state='disabled')
+    def limpiar_pantalla(self):
+        """Limpia todos los campos de entrada y el área de resultados."""
+        self.entrada_procesos.delete(0, tk.END)
+        self.entrada_quantum.delete(0, tk.END)
+        self.entrada_llegada.delete(0, tk.END)
+        self.entrada_rafaga.delete(0, tk.END)
+        self.texto_resultados.config(state='normal')
+        self.texto_resultados.delete('1.0', tk.END)
+        self.texto_resultados.config(state='disabled')
 
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = RoundRobinSimulatorUI(root)
+    app = SimuladorRoundRobinUI(root)
     root.mainloop()
