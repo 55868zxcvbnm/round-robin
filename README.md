@@ -16,7 +16,7 @@ round_robin_simulator/
     main.py                    - Archivo principal que ejecuta el simulador
     ui.py                      - Archivo para la interfaz gráfica utilizando Tkinter
     algorithm.py               - Archivo que contiene la implementación del algoritmo Round Robin
-    utils.py                   - Archivo con funciones auxiliares (e.g., para validaciones)
+    utils.py                   - Archivo con funciones auxiliaries (para validaciones)
 
     assets/                    - Carpeta para recursos adicionales
         icons/                 - Iconos para la interfaz
@@ -65,14 +65,14 @@ round_robin_simulator/
 - **Descripción:**
   Esta carpeta contiene recursos adicionales que la aplicación podría necesitar, como iconos y imágenes que se utilizan en la interfaz gráfica.
 - **Funcionalidad:**
-  Facilita la organización de todos los archivos de recursos gráficos para que sean fácilmente accesibles desde cualquier parte del proyecto.
+  Facilita la organización de todos los archivos de recursos gráficos para que sean fácilmente accessible desde cualquier parte del proyecto.
 
 ##### `icons/`
 
 - **Descripción:**
   Subcarpeta específica para almacenar iconos que pueden ser utilizados en botones, menús, o cualquier otro componente de la GUI.
 - **Funcionalidad:**
-  Mantiene los iconos organizados y separados de otros tipos de recursos.
+  Mantiene los iconos organized y separados de otros tipos de recursos.
 
 ##### `images/`
 

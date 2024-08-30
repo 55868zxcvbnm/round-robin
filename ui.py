@@ -3,65 +3,71 @@
 # ------------------------------------------------------------
 
 import tkinter as tk
+from tkinter import ttk
 from algorithm import PlanificadorRoundRobin
 
 
-class SimuladorRoundRobinUI:
+class Simulador:
     def __init__(self, master):
         self.master = master
         master.title("Simulador de Planificador de Procesos Round Robin")
+        master.geometry("800x600")
 
-        # Etiquetas y Entradas para la entrada de procesos
-        self.etiqueta_procesos = tk.Label(master, text="Número de Procesos")
-        self.etiqueta_procesos.grid(row=0, column=0)
+        # Título principal
+        self.titulo = tk.Label(
+            master,
+            text="Simulador de Planificador de Procesos Round Robin",
+            font=("Helvetica", 16, "bold"),
+            fg="#333333",  # Color del texto
+            pady=20
+        )
+        self.titulo.pack()
 
-        self.entrada_procesos = tk.Entry(master)
-        self.entrada_procesos.grid(row=0, column=1)
+        # Frame contenedor que se utiliza para organizar otros widgets (como etiquetas, campos de entrada, botones, etc.) en una ventana.
+        self.frame_config = tk.Frame(master, padx=10, pady=10)
+        self.frame_config.pack(fill="x")
 
-        self.etiqueta_quantum = tk.Label(master, text="Quantum")
-        self.etiqueta_quantum.grid(row=1, column=0)
+        # Etiquetas y entradas dentro del frame de configuración
+        tk.Label(self.frame_config, text="Cantidad de Procesos:", font=("Helvetica", 11)).grid(row=0, column=0, sticky="w")
+        self.entrada_procesos = tk.Entry(self.frame_config, width=10)
+        self.entrada_procesos.grid(row=0, column=1, padx=10)
 
-        self.entrada_quantum = tk.Entry(master)
-        self.entrada_quantum.grid(row=1, column=1)
+        tk.Label(self.frame_config, text="Quantum:", font=("Helvetica", 11)).grid(row=1, column=0, sticky="w")
+        self.entrada_quantum = tk.Entry(self.frame_config, width=10)
+        self.entrada_quantum.grid(row=1, column=1, padx=10)
 
-        # Nuevas etiquetas y entradas para tiempos de llegada y ráfaga
-        self.etiqueta_llegada = tk.Label(
-            master, text="Tiempos de Llegada (separados por comas)")
-        self.etiqueta_llegada.grid(row=2, column=0)
+        tk.Label(self.frame_config, text="Tiempos de Llegada (separados por comas):", font=("Helvetica", 11)).grid(row=2, column=0, sticky="w")
+        self.entrada_llegada = tk.Entry(self.frame_config, width=25)
+        self.entrada_llegada.grid(row=2, column=1, padx=10)
 
-        self.entrada_llegada = tk.Entry(master)
-        self.entrada_llegada.grid(row=2, column=1)
+        tk.Label(self.frame_config, text="Tiempos de Ráfaga (separados por comas):", font=("Helvetica", 11)).grid(row=3, column=0, sticky="w")
+        self.entrada_rafaga = tk.Entry(self.frame_config, width=25)
+        self.entrada_rafaga.grid(row=3, column=1, padx=10)
 
-        self.etiqueta_rafaga = tk.Label(
-            master, text="Tiempos de Ráfaga (separados por comas)")
-        self.etiqueta_rafaga.grid(row=3, column=0)
+        # Frame para botones
+        self.frame_botones = tk.Frame(master, pady=10)
+        self.frame_botones.pack()
 
-        self.entrada_rafaga = tk.Entry(master)
-        self.entrada_rafaga.grid(row=3, column=1)
+        self.boton_iniciar = tk.Button(self.frame_botones, text="Start",
+                                       command=self.iniciar_simulacion, width=10, bg="#4CAF50", fg="white")
+        self.boton_iniciar.grid(row=0, column=0, padx=5, pady=5)
 
-        # Botón para iniciar la simulación
-        self.boton_iniciar = tk.Button(
-            master, text="Iniciar Simulación", command=self.iniciar_simulacion)
-        self.boton_iniciar.grid(row=4, column=0, columnspan=2)
-
-        # Botón para limpiar la pantalla
-        self.boton_limpiar = tk.Button(
-            master, text="Limpiar Pantalla", command=self.limpiar_pantalla)
-        self.boton_limpiar.grid(row=4, column=1, columnspan=2)
+        self.boton_limpiar = tk.Button(self.frame_botones, text="Clear",
+                                       command=self.limpiar_pantalla, width=10, bg="#f44336", fg="white")
+        self.boton_limpiar.grid(row=0, column=1, padx=5, pady=5)
 
         # Caja de texto para mostrar los resultados
         self.texto_resultados = tk.Text(
-            master, state='disabled', width=50, height=20)
-        self.texto_resultados.grid(row=5, column=0, columnspan=2)
+            master, state='normal', width=70, height=23, wrap="word")
+        self.texto_resultados.pack(padx=10, pady=10)
 
+#-----------------------------------------------------------------------------------------
     def iniciar_simulacion(self):
         try:
             numero_procesos = int(self.entrada_procesos.get())
             quantum = int(self.entrada_quantum.get())
-            tiempos_llegada = list(
-                map(int, self.entrada_llegada.get().split(',')))
-            tiempos_rafaga = list(
-                map(int, self.entrada_rafaga.get().split(',')))
+            tiempos_llegada = list(map(int, self.entrada_llegada.get().split(',')))
+            tiempos_rafaga = list(map(int, self.entrada_rafaga.get().split(',')))
 
             # Validación de la longitud de las entradas
             if len(tiempos_llegada) != numero_procesos or len(tiempos_rafaga) != numero_procesos:
@@ -79,14 +85,16 @@ class SimuladorRoundRobinUI:
         except Exception as e:
             self.mostrar_resultados(f"Error: {e}")
 
+
     def mostrar_resultados(self, resultados):
         self.texto_resultados.config(state='normal')
         self.texto_resultados.delete('1.0', tk.END)
         self.texto_resultados.insert(tk.END, resultados)
         self.texto_resultados.config(state='disabled')
 
+
     def limpiar_pantalla(self):
-        """Limpia todos los campos de entrada y el área de resultados."""
+        # Limpia todos los campos de entrada y el área de resultados.
         self.entrada_procesos.delete(0, tk.END)
         self.entrada_quantum.delete(0, tk.END)
         self.entrada_llegada.delete(0, tk.END)
@@ -98,5 +106,5 @@ class SimuladorRoundRobinUI:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = SimuladorRoundRobinUI(root)
+    app = Simulador(root)
     root.mainloop()

@@ -36,7 +36,7 @@ class PlanificadorRoundRobin:
 
         while procesos_restantes > 0:
             resultados.append(
-                f"*************************** Tiempo: {tiempo} ************************")
+                f"Tiempo: {tiempo} ")
             if len(lista_procesos) > siguiente_proceso and tiempo >= lista_procesos[siguiente_proceso].llegada:
                 resultados.append(
                     f"El proceso {lista_procesos[siguiente_proceso].id} entró en la cola de listos.")

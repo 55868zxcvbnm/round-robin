@@ -5,11 +5,9 @@ from algorithm import PlanificadorRoundRobin
 class PruebasPlanificadorRoundRobin(unittest.TestCase):
 
     def prueba_un_proceso(self):
-        planificador = PlanificadorRoundRobin(
-            num_procesos=1, quantum=5, tiempos_llegada=[0], tiempos_rafaga=[10])
+        planificador = PlanificadorRoundRobin(num_procesos=1, quantum=5, tiempos_llegada=[0], tiempos_rafaga=[10])
         resultado = planificador.ejecutar_simulacion()
-        self.assertIn(
-            "El Proceso 1 completó su ejecución en el tiempo 10", resultado)
+        self.assertIn("El Proceso 1 completó su ejecución en el tiempo 10", resultado)
         self.assertIn("Tiempo promedio de retorno: 10.0", resultado)
         self.assertIn("Tiempo promedio de espera: 0.0", resultado)
 

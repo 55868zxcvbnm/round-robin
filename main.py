@@ -1,11 +1,11 @@
 # ------------------------------------------------------------------------------------------------------
-# Este archivo es el punto de entrain para el simulador y se encarga de inicializar la interfaz gráfica.
+# Este archivo es el punto de entrada para el simulador y se encarga de inicializar la interfaz gráfica.
 # ------------------------------------------------------------------------------------------------------
 
-from ui import SimuladorRoundRobinUI
+from ui import Simulador
 from tkinter import Tk
 
 if __name__ == "__main__":
     root = Tk()
-    app = SimuladorRoundRobinUI(root)
+    app = Simulador(root)
     root.mainloop()

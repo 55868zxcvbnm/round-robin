@@ -19,8 +19,7 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(calcular_promedio([10]), 10)
         self.assertEqual(calcular_promedio([]), 0)
         self.assertEqual(calcular_promedio([3, 3, 3]), 3)
-        self.assertAlmostEqual(calcular_promedio(
-            [2.5, 3.5, 4.0]), 3.3333333, places=6)
+        self.assertAlmostEqual(calcular_promedio([2.5, 3.5, 4.0]), 3.3333333, places=6)
 
 
 if __name__ == '__main__':
