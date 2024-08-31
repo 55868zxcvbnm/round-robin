@@ -4,8 +4,8 @@ Este proyecto es un simulador que implementa el algoritmo de planificación de p
 
 ## Instalación
 
-1. Asegúrate de tener Python 3.x instalado.
-2. Clona este repositorio.
+1. Asegúrate de tener [Python 3.x](https://www.python.org/downloads/) instalado en tu sistema.
+2. Clona este repositorio utilizando `git clone <URL_DEL_REPOSITORIO>`.
 3. Navega al directorio del proyecto.
 4. Ejecuta `pip install -r requirements.txt` para instalar las dependencias.
 
@@ -101,3 +101,13 @@ round_robin_simulator/
   Archivo para pruebas unitarias del módulo `utils.py`.
 - **Funcionalidad:**
   Verifica que las funciones auxiliares, como las de validación, operen correctamente bajo diversas condiciones.
+## Uso
+1. Ejecuta el archivo principal main.py para iniciar el simulador:python main.py
+2. Interactúa con la interfaz gráfica para configurar la simulación, ingresando el número de procesos y el tiempo de quantum.
+3. Haz clic en "Start" para iniciar la simulación y ver los resultados en la caja de texto.
+## Contribuciones
+  Si deseas contribuir a este proyecto, por favor sigue las siguientes directrices:
+
+1. Haz un fork del repositorio.
+2. Crea una rama para tu característica o corrección de errores.
+3. Envía un pull request describiendo claramente los cambios realizados.
