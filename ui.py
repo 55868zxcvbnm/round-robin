@@ -121,20 +121,34 @@ class Simulador:
         right_frame = ttk.Frame(main_frame, padding=10)
         right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
-        # Etiqueta de la salida del simulador
-        self.titulo_label = ttk.Label(
-            right_frame, text="Salida del simulador de procesos Round Robin", font=('Helvetica', 12, 'bold'))
-        self.titulo_label.pack(pady=10)
+        # Frame para detalle de la simulación y área de texto
+        detail_frame = ttk.Frame(right_frame)
+        detail_frame.pack(fill=tk.BOTH, expand=True)
+
+        self.detail_label = ttk.Label(
+            detail_frame, text="Detalle de la Simulación", font=('Helvetica', 14, 'bold'))
+        self.detail_label.pack(pady=10)
+
+        #self.simulation_details = tk.Text(
+         #   detail_frame, wrap=tk.WORD, height=10)
+        #self.simulation_details.pack(expand=True, fill=tk.BOTH)
+
+        # Información de tiempo
+        self.info_label = ttk.Label(
+            right_frame, text="", font=('Helvetica', 12))
+        self.info_label.pack(pady=10)
 
         # Salida de Texto dentro del frame de detalles
-        self.salida_texto = tk.Text(right_frame, height=30, width=50, wrap='word')
-        self.salida_texto.pack(pady=10, fill=tk.BOTH)
+        self.salida_texto = tk.Text(
+            detail_frame, height=200, wrap='word')
+        self.salida_texto.pack( pady = 10, fill=tk.BOTH)
 
         # Canvas para gráficos de Gantt en la parte inferior
-        self.canvas_frame = ttk.Frame(main_frame)
-        self.canvas_frame.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=False, pady=10)
+        self.canvas_frame = ttk.Frame(left_frame)
+        self.canvas_frame.pack(
+            side=tk.BOTTOM, fill=tk.BOTH, expand=True, pady=10)
 
-        self.canvas = tk.Canvas(self.canvas_frame, bg="white", height=40, width=1000,borderwidth=2, relief="groove")
+        self.canvas = tk.Canvas(self.canvas_frame, bg="white", height=40, borderwidth=2, relief="groove")
         self.canvas.pack(fill=tk.BOTH, expand=True)
 
         # Ajuste de disposición del `main_frame`
@@ -199,7 +213,7 @@ class Simulador:
         self.canvas.delete("all")
 
         # Dibujar gráfico de Gantt
-        y_start = 20
+        y_start = 1
         x_start = 20
         bar_height = 20
         for p in planificador.procesos:
