@@ -34,8 +34,7 @@ class Simulador:
     def create_widgets(self):
         # Estilo moderno
         style = ttk.Style()
-        style.configure('TButton', background='#4CAF50',
-                        foreground='white', padding=10, font=('Helvetica', 12))
+        style.configure('TButton', background='#4CAF50', foreground='black', padding=10, font=('Helvetica', 12))
         style.configure('TLabel', font=('Helvetica', 12))
         style.configure('TFrame', background='#f4f4f4')
 
@@ -115,16 +114,16 @@ class Simulador:
         right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
         # Frame para detalle de la simulación y área de texto
-        detail_frame = ttk.Frame(right_frame, padding=10)
+        detail_frame = ttk.Frame(right_frame)
         detail_frame.pack(fill=tk.BOTH, expand=True)
 
         self.detail_label = ttk.Label(
             detail_frame, text="Detalle de la Simulación", font=('Helvetica', 14, 'bold'))
         self.detail_label.pack(pady=10)
 
-        self.simulation_details = tk.Text(
-            detail_frame, wrap=tk.WORD, height=10)
-        self.simulation_details.pack(expand=True, fill=tk.BOTH)
+        #self.simulation_details = tk.Text(
+         #   detail_frame, wrap=tk.WORD, height=10)
+        #self.simulation_details.pack(expand=True, fill=tk.BOTH)
 
         # Información de tiempo
         self.info_label = ttk.Label(
@@ -133,16 +132,15 @@ class Simulador:
 
         # Salida de Texto dentro del frame de detalles
         self.salida_texto = tk.Text(
-            right_frame, height=10, width=40, wrap='word')
-        self.salida_texto.pack(pady=10, fill=tk.BOTH)
+            detail_frame, height=200, wrap='word')
+        self.salida_texto.pack( pady = 10, fill=tk.BOTH)
 
         # Canvas para gráficos de Gantt en la parte inferior
-        self.canvas_frame = ttk.Frame(main_frame)
+        self.canvas_frame = ttk.Frame(left_frame)
         self.canvas_frame.pack(
             side=tk.BOTTOM, fill=tk.BOTH, expand=True, pady=10)
 
-        self.canvas = tk.Canvas(self.canvas_frame, bg="white",
-                                height=200, borderwidth=2, relief="groove")
+        self.canvas = tk.Canvas(self.canvas_frame, bg="white", height=40, borderwidth=2, relief="groove")
         self.canvas.pack(fill=tk.BOTH, expand=True)
 
     def set_placeholder(self, entry, placeholder):
@@ -204,7 +202,7 @@ class Simulador:
         self.canvas.delete("all")
 
         # Dibujar gráfico de Gantt
-        y_start = 20
+        y_start = 1
         x_start = 20
         bar_height = 20
         for p in planificador.procesos:
