@@ -35,7 +35,7 @@ class Simulador:
         # Configuración del estilo para TButton
         style.configure(
             'TButton',
-            background='#43e649',  # Color de fondo
+            background='#5FCDD9',  # Color de fondo
             foreground='black',    # Color del texto
             padding=(1, 4),       # Relleno
             font=('Helvetica', 10, 'italic', 'bold'),  # Fuente del texto
@@ -46,16 +46,16 @@ class Simulador:
         )
         # button estados
         style.map('TButton',
-                background=[('active', '#34a853'), ('disabled', '#d3d3d3')],
-                foreground=[('active', 'white'), ('disabled', 'gray')],
+                  background=[('active', '#027373'), ('disabled', '#d3d3d3')],
+                  foreground=[('active', '#027373'), ('disabled', 'gray')],
                 borderwidth=[('active', 3), ('disabled', 1)]
                 )
 
         # TLabel → etiquetas
-        style.configure('TLabel',background='#43e649',  # Color de fondo
+        style.configure('TLabel',background='#5FCDD9',  # Color de fondo
         )
         # TFrame → contenedor
-        style.configure('TFrame', background='#061f36')
+        style.configure('TFrame', background='#172026')
 
         # Creación del marco principal con el estilo personalizado
         main_frame = ttk.Frame(self.master, padding=12, style='TFrame')
