@@ -31,128 +31,97 @@ class Simulador:
         self.create_widgets()
     # metodos ↓↓↓
     def create_widgets(self):
-        style = ttk.Style()# style → objeto creado
-        # Configuración del estilo para TButton
-        style.configure(
-            'TButton',
-            background='#5FCDD9',  # Color de fondo
-            foreground='black',    # Color del texto
-            padding=(1, 4),       # Relleno
-            font=('Helvetica', 10, 'italic', 'bold'),  # Fuente del texto
-            cursor='hand2',        # Cursor al pasar el ratón
-            width=12,              # Ancho del botón
-            relief='solid',         # Estilo del borde
-            borderwidth=5
-        )
-        # button estados
-        style.map('TButton',
-                  background=[('active', '#027373'), ('disabled', '#d3d3d3')],
-                  foreground=[('active', '#027373'), ('disabled', 'gray')],
-                borderwidth=[('active', 3), ('disabled', 1)]
-                )
+        # Estilo general para widgets
+        style = ttk.Style()
+        style.configure('TButton', foreground='black', font=('Helvetica', 11, 'italic', 'bold'), width=18)
+        style.configure('TLabel', background='#0D0D0D', foreground='white')
+        style.configure('TFrame', background='#0D0D0D')
 
-        # TLabel → etiquetas
-        style.configure('TLabel',background='#5FCDD9',  # Color de fondo
-        )
-        # TFrame → contenedor
-        style.configure('TFrame', background='#172026')
-
-        # Creación del marco principal con el estilo personalizado
+        # Frame principal
         main_frame = ttk.Frame(self.master, padding=12, style='TFrame')
         main_frame.pack(fill=tk.BOTH, expand=True)
 
-        # Título centrado
-        title_label = ttk.Label(main_frame, text="Simulador Round Robin", font=('Helvetica', 24, 'bold'),anchor='center')
-        title_label.pack(pady=10, fill=tk.X)
+        # Título
+        title_label = ttk.Label(main_frame, text="Simulador Round Robin", font=('Helvetica', 28, 'bold'), background='#2A8C82', anchor="center", foreground= 'white')
+        title_label.pack(pady=15, fill=tk.X)
 
-        # Frame de la izquierda
-        left_frame = ttk.Frame(main_frame, padding=0)
-        left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        # Frame izquierdo para agregar procesos y configuración
+        left_frame = ttk.Frame(main_frame, padding=15,relief="solid", borderwidth=0)
+        left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=False)
+
 
         # Frame para añadir procesos
-        add_process_frame = ttk.Frame(left_frame, padding=10)
-        add_process_frame.pack(fill=tk.X, pady=10)
+        add_process_frame = ttk.Frame(left_frame, padding=15)
+        add_process_frame.pack(fill=tk.X, pady=15)
 
-        ttk.Label(add_process_frame, text="Añadir un nuevo proceso:", font=(
-            'Helvetica', 12, 'bold')).grid(row=0, column=0, padx=5)
+        # Etiqueta de "Añadir un nuevo proceso"
+        ttk.Label(add_process_frame, text="Añadir un nuevo proceso:", font=('Helvetica', 12, 'bold')).grid(row=0, column=0, padx=5, pady=5)
 
+        # Campo de entrada para Tiempo de Llegada
         self.tiempos_llegada_entry = tk.Entry(add_process_frame, width=18)
-        self.tiempos_llegada_entry.grid(row=0, column=1, padx=5)
+        self.tiempos_llegada_entry.grid(row=1, column=0, padx=5, pady=5)
         self.set_placeholder(self.tiempos_llegada_entry, "Tiempo de Llegada")
 
-        self.tiempos_rafaga_entry = tk.Entry(add_process_frame, width=15)
-        self.tiempos_rafaga_entry.grid(row=0, column=2, padx=5)
-        self.set_placeholder(self.tiempos_rafaga_entry, "Tiempo Ráfaga")
+        # Campo de entrada para Tiempo de Ráfaga
+        self.tiempos_rafaga_entry = tk.Entry(add_process_frame, width=18)
+        self.tiempos_rafaga_entry.grid(row=2, column=0, padx=5, pady=5)
+        self.set_placeholder(self.tiempos_rafaga_entry, "    Tiempo Ráfaga")
 
+        # Botones para agregar y limpiar procesos
         button_frame = ttk.Frame(add_process_frame)
-        button_frame.grid(row=0, column=3, padx=5)
+        button_frame.grid(row=3, column=0, padx=5, pady=15)
 
         add_button = ttk.Button(button_frame, text="Añadir", command=self.add_process)
         add_button.pack(side=tk.LEFT, padx=5)
 
-        clear_button = ttk.Button(button_frame, text="Limpiar", command=self.clear_processes)
+        clear_button = ttk.Button(button_frame, text="Limpiar",
+                                command=self.clear_processes)
         clear_button.pack(side=tk.LEFT, padx=5)
 
-        # Tabla de procesos con tamaño fijo
-        self.processes_table = ttk.Treeview(left_frame, columns=("ID", "Tiempo de Llegada", "Tiempo de Ráfaga"), show='headings')
-        self.processes_table.heading("ID", text="ID")
-        self.processes_table.heading("Tiempo de Llegada", text="Tiempo de Llegada")
-        self.processes_table.heading("Tiempo de Ráfaga", text="Tiempo de Ráfaga")
 
-        # Definir ancho fijo para las columnas
+        # Tabla de procesos
+        self.processes_table = ttk.Treeview(left_frame, columns=(
+            "ID", "Tiempo de Llegada", "Tiempo de Ráfaga"), show='headings')
+        self.processes_table.heading("ID", text="ID")
+        self.processes_table.heading(
+            "Tiempo de Llegada", text="Tiempo de Llegada")
+        self.processes_table.heading(
+            "Tiempo de Ráfaga", text="Tiempo de Ráfaga")
         self.processes_table.column("ID", width=30, anchor=tk.CENTER)
-        self.processes_table.column("Tiempo de Llegada", width=150, anchor=tk.CENTER)
-        self.processes_table.column("Tiempo de Ráfaga", width=150, anchor=tk.CENTER)
-        self.processes_table.pack(pady=5)
+        self.processes_table.column(
+            "Tiempo de Llegada", width=50, anchor=tk.CENTER)
+        self.processes_table.column(
+            "Tiempo de Ráfaga", width=50, anchor=tk.CENTER)
+        self.processes_table.pack(pady=5, fill=tk.BOTH, expand=True)
 
         # Frame de configuración de Round Robin
         config_frame = ttk.Frame(left_frame, padding=5)
         config_frame.pack(fill=tk.X, pady=10)
 
-        ttk.Label(config_frame, text="Valor Quamtun:", font=('Helvetica', 12, 'bold')).grid(row=0, column=0, padx=5)
-        self.q_value_entry = tk.Entry(config_frame, width=5 )
+        ttk.Label(config_frame, text="Valor Quantum:", font=('Helvetica', 12, 'bold')).grid(row=0, column=0, padx=5)
+        self.q_value_entry = tk.Entry(config_frame, width=5)
         self.q_value_entry.grid(row=0, column=1, padx=5)
         self.q_value_entry.insert(0, "2")
 
-        solve_button = ttk.Button(config_frame, text="Iniciar Simulacion", command=self.iniciar_simulacion)
-        solve_button.grid(row=0, column=2, padx=5)
+        solve_button = ttk.Button(config_frame, text="Iniciar Simulación", command=self.iniciar_simulacion)
+        solve_button.grid(row=1, column=0, padx=10,pady=10)
 
-        # Frame de la derecha para detalles de la simulación
-        right_frame = ttk.Frame(main_frame, padding=10)
+        # Frame derecho para detalles de la simulación
+        right_frame = ttk.Frame(main_frame, padding=15)
         right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
-        # Frame para detalle de la simulación y área de texto
-        detail_frame = ttk.Frame(right_frame)
-        detail_frame.pack(fill=tk.BOTH, expand=True)
-
-        self.detail_label = ttk.Label(
-            detail_frame, text="Detalle de la Simulación", font=('Helvetica', 14, 'bold'))
-        self.detail_label.pack(pady=10)
-
-        #self.simulation_details = tk.Text(
-         #   detail_frame, wrap=tk.WORD, height=10)
-        #self.simulation_details.pack(expand=True, fill=tk.BOTH)
-
-        # Información de tiempo
-        self.info_label = ttk.Label(
-            right_frame, text="", font=('Helvetica', 12))
-        self.info_label.pack(pady=10)
-
-        # Salida de Texto dentro del frame de detalles
-        self.salida_texto = tk.Text(
-            detail_frame, height=200, wrap='word')
-        self.salida_texto.pack( pady = 10, fill=tk.BOTH)
+        # Detalles de la simulación
+        ttk.Label(right_frame, text="Detalle de la Simulación",
+                  font=('Helvetica', 16, 'bold')).pack(pady=15)
+        self.salida_texto = tk.Text(right_frame, height=100, wrap='word')
+        self.salida_texto.pack(pady=15, fill=tk.BOTH, expand=True)
 
         # Canvas para gráficos de Gantt en la parte inferior
         self.canvas_frame = ttk.Frame(left_frame)
-        self.canvas_frame.pack(
-            side=tk.BOTTOM, fill=tk.BOTH, expand=True, pady=10)
-
-        self.canvas = tk.Canvas(self.canvas_frame, bg="white", height=40, borderwidth=2, relief="groove")
+        self.canvas_frame.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True, pady=15)
+        self.canvas = tk.Canvas(self.canvas_frame, bg="white", height=20, borderwidth=2, relief="groove")
         self.canvas.pack(fill=tk.BOTH, expand=True)
 
-        # Ajuste de disposición del `main_frame`
-        main_frame.pack(fill=tk.BOTH, expand=True, side=tk.TOP)
 
     def set_placeholder(self, entry, placeholder):
         entry.insert(0, placeholder)
@@ -218,12 +187,12 @@ class Simulador:
         bar_height = 20
         for p in planificador.procesos:
             for (start_time, duration) in p.historial:
-                self.canvas.create_rectangle(x_start + start_time * 10, y_start,
+                self.canvas.create_rectangle(x_start + start_time * 15, y_start,
                                              x_start +
                                              (start_time + duration) *
-                                             10, y_start + bar_height,
+                                             15, y_start + bar_height,
                                              fill='blue')
-                self.canvas.create_text(x_start + (start_time + duration / 2) * 10, y_start + bar_height / 2,
+                self.canvas.create_text(x_start + (start_time + duration / 2) * 15, y_start + bar_height / 2,
                                         text=f"P{p.id}", fill="white")
 
         self.canvas.update_idletasks()

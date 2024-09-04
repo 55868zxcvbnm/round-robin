@@ -1,6 +1,8 @@
 # Simulador de Planificación de Procesos Round Robin
 
-Este proyecto es un simulador que implementa el algoritmo de planificación de procesos Round Robin. Permite a los usuarios visualizar cómo se gestionan los procesos en un sistema operativo utilizando este algoritmo.
+Este proyecto es un simulador que implementa el algoritmo de planificación de procesos
+Round Robin. Permite a los usuarios visualizar cómo se gestionan los procesos en un
+sistema operativo utilizando este algoritmo.
 
 ## Instalación
 
