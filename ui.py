@@ -55,16 +55,16 @@ class Simulador:
         add_process_frame.pack(fill=tk.X, pady=15)
 
         # Etiqueta de "Añadir un nuevo proceso"
-        ttk.Label(add_process_frame, text="Añadir un nuevo proceso:", font=('Helvetica', 12, 'bold')).grid(row=0, column=0, padx=5, pady=5)
+        ttk.Label(add_process_frame, text="Añadir un nuevo proceso:", font=('Helvetica', 12, 'bold')).grid(row=0, column=0, padx=1, pady=5)
 
         # Campo de entrada para Tiempo de Llegada
         self.tiempos_llegada_entry = tk.Entry(add_process_frame, width=18)
-        self.tiempos_llegada_entry.grid(row=1, column=0, padx=5, pady=5)
+        self.tiempos_llegada_entry.grid(row=1, column=0, padx=5, pady=2)
         self.set_placeholder(self.tiempos_llegada_entry, "Tiempo de Llegada")
 
         # Campo de entrada para Tiempo de Ráfaga
         self.tiempos_rafaga_entry = tk.Entry(add_process_frame, width=18)
-        self.tiempos_rafaga_entry.grid(row=2, column=0, padx=5, pady=5)
+        self.tiempos_rafaga_entry.grid(row=2, column=0, padx=5, pady=2)
         self.set_placeholder(self.tiempos_rafaga_entry, "    Tiempo Ráfaga")
 
         # Botones para agregar y limpiar procesos
@@ -77,7 +77,6 @@ class Simulador:
         clear_button = ttk.Button(button_frame, text="Limpiar",
                                 command=self.clear_processes)
         clear_button.pack(side=tk.LEFT, padx=5)
-
 
         # Tabla de procesos
         self.processes_table = ttk.Treeview(left_frame, columns=(
@@ -92,36 +91,51 @@ class Simulador:
             "Tiempo de Llegada", width=50, anchor=tk.CENTER)
         self.processes_table.column(
             "Tiempo de Ráfaga", width=50, anchor=tk.CENTER)
-        self.processes_table.pack(pady=5, fill=tk.BOTH, expand=True)
+        self.processes_table.pack(pady=2, fill=tk.BOTH, expand=True)
 
-        # Frame de configuración de Round Robin
+        # Frame de configuración del quantum
         config_frame = ttk.Frame(left_frame, padding=5)
         config_frame.pack(fill=tk.X, pady=10)
 
-        ttk.Label(config_frame, text="Valor Quantum:", font=('Helvetica', 12, 'bold')).grid(row=0, column=0, padx=5)
+        ttk.Label(config_frame, text="Valor Quantum:", font=(
+            'Helvetica', 12, 'bold')).grid(row=0, column=0, padx=5)
         self.q_value_entry = tk.Entry(config_frame, width=5)
         self.q_value_entry.grid(row=0, column=1, padx=5)
         self.q_value_entry.insert(0, "2")
 
-        solve_button = ttk.Button(config_frame, text="Iniciar Simulación", command=self.iniciar_simulacion)
-        solve_button.grid(row=1, column=0, padx=10,pady=10)
+        solve_button = ttk.Button(
+            config_frame, text="Iniciar Simulación", command=self.iniciar_simulacion)
+        solve_button.grid(row=1, column=0, padx=10, pady=10)
 
-        # Frame derecho para detalles de la simulación
-        right_frame = ttk.Frame(main_frame, padding=15)
+        # Frame de la derecha para detalles de la simulación
+        right_frame = ttk.Frame(main_frame, padding=10)
         right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
-        # Detalles de la simulación
-        ttk.Label(right_frame, text="Detalle de la Simulación",
-                  font=('Helvetica', 16, 'bold')).pack(pady=15)
-        self.salida_texto = tk.Text(right_frame, height=100, wrap='word')
-        self.salida_texto.pack(pady=15, fill=tk.BOTH, expand=True)
+        # Frame para detalle de la simulación y área de texto
+        detail_frame = ttk.Frame(right_frame)
+        detail_frame.pack(fill=tk.BOTH, expand=True)
+
+        self.detail_label = ttk.Label(detail_frame, text="Detalle de la Simulación", font=('Helvetica', 14, 'bold'))
+        self.detail_label.pack(pady=10)
+
+        # Información de tiempo
+        self.info_label = ttk.Label(right_frame, text="", font=('Helvetica', 12))
+        self.info_label.pack(pady=10)
+
+        # Salida de Texto dentro del frame de detalles
+        self.salida_texto = tk.Text(detail_frame, height=25, wrap='word')
+        self.salida_texto.pack(pady=(10, 5), fill=tk.BOTH)
 
         # Canvas para gráficos de Gantt en la parte inferior
-        self.canvas_frame = ttk.Frame(left_frame)
-        self.canvas_frame.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True, pady=15)
-        self.canvas = tk.Canvas(self.canvas_frame, bg="white", height=20, borderwidth=2, relief="groove")
-        self.canvas.pack(fill=tk.BOTH, expand=True)
+        self.canvas_frame = ttk.Frame(self.master, style='TFrame')
+        self.canvas_frame.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
 
+        self.canvas = tk.Canvas(self.canvas_frame, bg="white",
+                                width=200, height=150, borderwidth=5, relief="groove")
+        self.canvas.pack(fill=tk.X, expand=False)
+
+        # Ajuste de disposición del main_frame
+        main_frame.pack(fill=tk.BOTH, expand=True, side=tk.TOP)
 
     def set_placeholder(self, entry, placeholder):
         entry.insert(0, placeholder)
@@ -182,17 +196,28 @@ class Simulador:
         self.canvas.delete("all")
 
         # Dibujar gráfico de Gantt
-        y_start = 1
+        y_start = 30
         x_start = 20
-        bar_height = 20
+        bar_height = 40
         for p in planificador.procesos:
             for (start_time, duration) in p.historial:
-                self.canvas.create_rectangle(x_start + start_time * 15, y_start,
+                self.canvas.create_rectangle(x_start + start_time * 20, y_start,
                                              x_start +
                                              (start_time + duration) *
-                                             15, y_start + bar_height,
-                                             fill='blue')
-                self.canvas.create_text(x_start + (start_time + duration / 2) * 15, y_start + bar_height / 2,
-                                        text=f"P{p.id}", fill="white")
+                                             20, y_start + bar_height,
+                                             fill='#038C7F')
+                self.canvas.create_text(x_start + (start_time + duration / 2) * 20, y_start + bar_height / 2,
+                                        text=f"P{p.id}", fill="#F2E7DC")
+
+                rule_y_position = y_start + bar_height + 20  # Posición vertical para la regla
+                max_time = max(p.historial[-1][0] + p.historial[-1][1]
+                               for p in planificador.procesos)
+
+                for t in range(max_time + 1):
+                    x_position = x_start + t * 20
+                    self.canvas.create_line(x_position, rule_y_position - 5, x_position, rule_y_position + 5,
+                                            fill="#000000")
+                    self.canvas.create_text(
+                        x_position, rule_y_position + 15, text=str(t), fill="#000000")
 
         self.canvas.update_idletasks()
